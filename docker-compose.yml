@@ -1,0 +1,33 @@
+---
+rabbit1:
+  image: library/rabbitmq:3.5.6-management
+  hostname: rabbit1
+  environment:
+    RABBITMQ_ERLANG_COOKIE: thisisabadcookie
+  ports:
+    - "15672:15672"
+    - "5672:5672"
+rabbit2:
+  image: library/rabbitmq:3.5.6-management
+  hostname: rabbit2
+  environment:
+    RABBITMQ_ERLANG_COOKIE: thisisabadcookie
+  ports:
+    - "5672"
+  links:
+    - rabbit1
+  volumes:
+    - ./rabbit2:/etc/rabbitmq
+rabbit3:
+  image: library/rabbitmq:3.5.6-management
+  hostname: rabbit3
+  environment:
+    RABBITMQ_ERLANG_COOKIE: thisisabadcookie
+  ports:
+    - "5672"
+  links:
+    - rabbit1
+    - rabbit2
+  volumes:
+    - ./rabbit3:/etc/rabbitmq
+
